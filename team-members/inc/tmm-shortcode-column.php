@@ -9,7 +9,7 @@ function tmm_custom_columns($column, $post_id)
       global $post;
       $slug = '';
       $slug = $post->post_name;
-      $shortcode = '<span style="display:inline-block;border:solid 2px lightgray; background:white; padding:0 8px; font-size:13px; line-height:25px; vertical-align:middle;">[tmm name="' . $slug . '"]</span>';
+      $shortcode = '<span style="display:inline-block;border:solid 2px lightgray; background:white; padding:0 8px; font-size:13px; line-height:25px; vertical-align:middle;">[tmm name="' . esc_attr($slug) . '"]</span>';
       echo wp_kses_post($shortcode);
       break;
   }

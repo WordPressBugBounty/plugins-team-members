@@ -85,10 +85,10 @@ function tmm_sc($atts)
                 /* Displays names. */
                 $team_view .= '<div class="tmm_names">';
                 if (!empty($member['_tmm_firstname'])) {
-                    $team_view .= '<span class="tmm_fname">'.wp_kses_post($member['_tmm_firstname']).'</span> ';
+                    $team_view .= '<span class="tmm_fname">'.esc_html($member['_tmm_firstname']).'</span> ';
                 }
                 if (!empty($member['_tmm_lastname'])) {
-                    $team_view .= '<span class="tmm_lname">'.wp_kses_post($member['_tmm_lastname']).'</span>';
+                    $team_view .= '<span class="tmm_lname">'.esc_html($member['_tmm_lastname']).'</span>';
                 }
                 $team_view .= '</div>';
 

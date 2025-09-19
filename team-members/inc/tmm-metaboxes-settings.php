@@ -4,8 +4,8 @@
 function dmb_tmm_force_fonts_options()
 {
     $options = [
-        __('Plugin', TMM_TXTDM) => 'yes',
-        __('Theme', TMM_TXTDM) => 'no',
+        __('Plugin', 'team-members') => 'yes',
+        __('Theme', 'team-members') => 'no',
     ];
 
     return $options;
@@ -15,8 +15,8 @@ function dmb_tmm_force_fonts_options()
 function dmb_tmm_piclink_beh_options()
 {
     $options = [
-        __('New window', TMM_TXTDM) => 'new',
-        __('Same window', TMM_TXTDM) => 'same',
+        __('New window', 'team-members') => 'new',
+        __('Same window', 'team-members') => 'same',
     ];
 
     return $options;
@@ -32,8 +32,8 @@ function dmb_tmm_piclink_beh_options()
 function dmb_tmm_display_order_options()
 {
     $options = [
-        __('Default', TMM_TXTDM) => 'default',
-        __('Random', TMM_TXTDM) => 'random',
+        __('Default', 'team-members') => 'default',
+        __('Random', 'team-members') => 'random',
     ];
 
     return $options;
@@ -43,10 +43,10 @@ function dmb_tmm_display_order_options()
 function dmb_tmm_bio_align_options()
 {
     $options = [
-        __('Center', TMM_TXTDM) => 'center',
-        __('Left', TMM_TXTDM) => 'left',
-        __('Right', TMM_TXTDM) => 'right',
-        __('Justify', TMM_TXTDM) => 'justify',
+        __('Center', 'team-members') => 'center',
+        __('Left', 'team-members') => 'left',
+        __('Right', 'team-members') => 'right',
+        __('Justify', 'team-members') => 'justify',
     ];
 
     return $options;
@@ -56,11 +56,11 @@ function dmb_tmm_bio_align_options()
 function dmb_tmm_columns_options()
 {
     $options = [
-        __('1 per line', TMM_TXTDM) => '1',
-        __('2 per line', TMM_TXTDM) => '2',
-        __('3 per line', TMM_TXTDM) => '3',
-        __('4 per line', TMM_TXTDM) => '4',
-        __('5 per line', TMM_TXTDM) => '5',
+        __('1 per line', 'team-members') => '1',
+        __('2 per line', 'team-members') => '2',
+        __('3 per line', 'team-members') => '3',
+        __('4 per line', 'team-members') => '4',
+        __('5 per line', 'team-members') => '5',
     ];
 
     return $options;
@@ -128,17 +128,18 @@ function dmb_tmm_settings_display()
 <div class="dmb_settings_box dmb_sidebar">
 
     <div class="dmb_section_title">
-        <?php /* translators: General settings */ esc_html_e('General', TMM_TXTDM); ?>
+        <?php /* translators: General settings */ esc_html_e('General', 'team-members'); ?>
     </div>
 
     <!-- Team layout -->
     <div class="dmb_grid dmb_grid_50 dmb_grid_first">
         <div class="dmb_field_title">
-            <?php esc_html_e('Members per line', TMM_TXTDM); ?>
+            <?php esc_html_e('Members per line', 'team-members'); ?>
         </div>
         <select class="dmb_side_select" name="team_columns">
             <?php foreach ($team_columns as $label => $value) { ?>
-            <option value="<?php echo wp_kses_post($value); ?>" <?php selected((isset($settings['_tmm_columns'])) ? $settings['_tmm_columns'] : '3', $value); ?>>
+            <option value="<?php echo wp_kses_post($value); ?>"
+                <?php selected((isset($settings['_tmm_columns'])) ? $settings['_tmm_columns'] : '3', $value); ?>>
                 <?php echo esc_attr($label); ?>
             </option>
             <?php } ?>
@@ -148,11 +149,12 @@ function dmb_tmm_settings_display()
     <!-- Photo link behavior -->
     <div class="dmb_grid dmb_grid_50 dmb_grid_last">
         <div class="dmb_field_title">
-            <?php esc_html_e('Photo link behavior', TMM_TXTDM); ?>
+            <?php esc_html_e('Photo link behavior', 'team-members'); ?>
         </div>
         <select class="dmb_side_select" name="team_piclink_beh">
             <?php foreach ($team_piclink_beh as $label => $value) { ?>
-            <option value="<?php echo wp_kses_post($value); ?>" <?php selected((isset($settings['_tmm_piclink_beh'])) ? $settings['_tmm_piclink_beh'] : 'new', $value); ?>>
+            <option value="<?php echo wp_kses_post($value); ?>"
+                <?php selected((isset($settings['_tmm_piclink_beh'])) ? $settings['_tmm_piclink_beh'] : 'new', $value); ?>>
                 <?php echo esc_attr($label); ?>
             </option>
             <?php } ?>
@@ -162,16 +164,17 @@ function dmb_tmm_settings_display()
     <!-- Display order -->
     <div class="dmb_grid dmb_grid_50 dmb_grid_first">
         <div class="dmb_field_title">
-            <?php esc_html_e('Display order', TMM_TXTDM); ?>
+            <?php esc_html_e('Display order', 'team-members'); ?>
             <a class="dmb_inline_tip dmb_tooltip_small"
-                data-tooltip="<?php esc_attr_e('Order in which your team members will be sorted when displayed.', TMM_TXTDM); ?>">
+                data-tooltip="<?php esc_attr_e('Order in which your team members will be sorted when displayed.', 'team-members'); ?>">
                 [?]
             </a>
         </div>
         <select class="dmb_side_select" name="team_display_order">
             <?php foreach ($team_display_order as $label => $value) { ?>
-            <option value="<?php echo wp_kses_post($value); ?>" <?php selected((isset($settings['_tmm_display_order'])) ? $settings['_tmm_display_order'] : 'default', $value); ?>>
-                <?php esc_attr_e($label); ?>
+            <option value="<?php echo wp_kses_post($value); ?>"
+                <?php selected((isset($settings['_tmm_display_order'])) ? $settings['_tmm_display_order'] : 'default', $value); ?>>
+                <?php esc_attr($label); ?>
             </option>
             <?php } ?>
         </select>
@@ -180,11 +183,12 @@ function dmb_tmm_settings_display()
     <!-- Font option -->
     <div class="dmb_grid dmb_grid_50 dmb_grid_last">
         <div class="dmb_field_title">
-            <?php esc_html_e('Fonts to use', TMM_TXTDM); ?>
+            <?php esc_html_e('Fonts to use', 'team-members'); ?>
         </div>
         <select class="dmb_side_select" name="team_force_font">
             <?php foreach ($team_force_font as $label => $value) { ?>
-            <option value="<?php echo wp_kses_post($value); ?>" <?php selected((isset($settings['_tmm_original_font'])) ? $settings['_tmm_original_font'] : 'yes', $value); ?>>
+            <option value="<?php echo wp_kses_post($value); ?>"
+                <?php selected((isset($settings['_tmm_original_font'])) ? $settings['_tmm_original_font'] : 'yes', $value); ?>>
                 <?php echo esc_attr($label); ?>
             </option>
             <?php } ?>
@@ -194,7 +198,7 @@ function dmb_tmm_settings_display()
     <!-- Main color -->
     <div class="dmb_color_of_team dmb_grid dmb_grid_100 dmb_grid_first dmb_grid_last">
         <div class="dmb_field_title">
-            <?php esc_html_e('Main color', TMM_TXTDM); ?>
+            <?php esc_html_e('Main color', 'team-members'); ?>
         </div>
         <input class="dmb_color_picker dmb_field dmb_color_of_team" name="team_color" type="text"
             value="<?php echo (isset($settings['_tmm_color'])) ? wp_kses_post(esc_attr($settings['_tmm_color'])) : '#333333'; ?>" />

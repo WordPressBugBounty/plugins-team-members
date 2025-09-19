@@ -344,7 +344,7 @@ $(document).ready(function (){
       var handleTitle = $(this).find('.dmb_handle_title'),
       firstname = $(this).find('.dmb_firstname_of_member').val(),
       lastname = $(this).find('.dmb_lastname_of_member').val();
-      handleTitle.html($.parseHTML(firstname + ' ' + lastname));
+      handleTitle.text(firstname + ' ' + lastname);
 
     }
 
@@ -354,8 +354,7 @@ $(document).ready(function (){
     var container = document.createElement('div');
     var text = document.createTextNode(dirtyString);
     container.appendChild(text);
-    return dirtyString;
-    return container.innerHTML; // innerHTML will be a xss safe string
+    return container.innerHTML;
   }
 
 
@@ -376,8 +375,8 @@ $(document).ready(function (){
     
     /* Updates handle title. */
     (firstnameField.val() != '')
-      ? handleTitle.html(encodeHTML(title))
-      : handleTitle.html(objectL10n.untitled + cloneCopyText);
+      ? handleTitle.text(title)
+      : handleTitle.text(objectL10n.untitled + cloneCopyText);
 
   }
 

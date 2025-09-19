@@ -20,9 +20,9 @@ function add_admin_tmm_style()
 
         /* Localizes string for JS file. */
         wp_localize_script('tmm', 'objectL10n', [
-          'untitled' => __('Untitled', TMM_TXTDM),
-          'noMemberNotice' => __('Add at least <strong>1</strong> member to preview the team.', TMM_TXTDM),
-          'previewAccuracy' => __('This is only a preview, shortcodes used in the fields will not be rendered and results may vary depending on your container\'s width.', TMM_TXTDM),
+          'untitled' => __('Untitled', 'team-members'),
+          'noMemberNotice' => __('Add at least <strong>1</strong> member to preview the team.', 'team-members'),
+          'previewAccuracy' => __('This is only a preview, shortcodes used in the fields will not be rendered and results may vary depending on your container\'s width.', 'team-members'),
         ]);
         wp_enqueue_style('thickbox');
     }

@@ -1,9 +1,9 @@
 === Team Members ===
 Contributors: spwebguy
-Tags: team, teams, meet the team, shortcode, responsive, members, staff, people
+Tags: team, teams, meet the team, shortcode, responsive
 Requires at least: 3.6
-Tested up to: 6.6
-Stable tag: 5.3.5
+Tested up to: 6.8
+Stable tag: 5.3.6
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -94,6 +94,11 @@ Find help on [our support platform](https://wpdarko.com/support) for this plugin
 6. Finding the shortcode (admin view)
 
 == Changelog ==
+= 5.3.6 =
+* Fix vulnerability
+* Escaped shortcode slug in admin UI.
+* Various minor improvements and best-practice updates (PCP).
+
 = 5.3.5 =
 * Fix vulnerability
 

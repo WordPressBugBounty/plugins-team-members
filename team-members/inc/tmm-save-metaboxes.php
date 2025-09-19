@@ -74,46 +74,53 @@ function dmb_tmm_plan_meta_box_save($post_id)
                 || '' != $member_photo
             ) {
                 /* Head. */
-                (isset($member_firstname) && $member_firstname) ? $new_team[$i]['_tmm_firstname'] = stripslashes(wp_kses_post($member_firstname)) : $new_team[$i]['_tmm_firstname'] = __('Untitled', TMM_TXTDM);
-                (isset($member_lastname) && $member_lastname) ? $new_team[$i]['_tmm_lastname'] = stripslashes(wp_kses_post($member_lastname)) : $new_team[$i]['_tmm_lastname'] = '';
+                (isset($member_firstname) && $member_firstname) ? $new_team[$i]['_tmm_firstname'] = sanitize_text_field($member_firstname) : $new_team[$i]['_tmm_firstname'] = __('Untitled', 'team-members');
+                (isset($member_lastname) && $member_lastname) ? $new_team[$i]['_tmm_lastname'] = sanitize_text_field($member_lastname) : $new_team[$i]['_tmm_lastname'] = '';
                 (isset($member_job) && $member_job) ? $new_team[$i]['_tmm_job'] = stripslashes(wp_kses_post($member_job)) : $new_team[$i]['_tmm_job'] = '';
                 (isset($member_bio) && $member_bio) ? $new_team[$i]['_tmm_desc'] = wp_kses_post(balanceTags($member_bio)) : $new_team[$i]['_tmm_desc'] = '';
-                (isset($member_photo) && $member_photo) ? $new_team[$i]['_tmm_photo'] = stripslashes(strip_tags(sanitize_text_field($member_photo))) : $new_team[$i]['_tmm_photo'] = '';
-                (isset($member_photo_url) && $member_photo_url) ? $new_team[$i]['_tmm_photo_url'] = stripslashes(strip_tags(sanitize_url($member_photo_url))) : $new_team[$i]['_tmm_photo_url'] = '';
+                (isset($member_photo) && $member_photo) ? $new_team[$i]['_tmm_photo'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_photo))) : $new_team[$i]['_tmm_photo'] = '';
+                (isset($member_photo_url) && $member_photo_url) ? $new_team[$i]['_tmm_photo_url'] = stripslashes(wp_strip_all_tags(sanitize_url($member_photo_url))) : $new_team[$i]['_tmm_photo_url'] = '';
 
-                (isset($member_scl_type1) && $member_scl_type1) ? $new_team[$i]['_tmm_sc_type1'] = stripslashes(strip_tags(sanitize_text_field($member_scl_type1))) : $new_team[$i]['_tmm_sc_type1'] = '';
-                (isset($member_scl_title1) && $member_scl_title1) ? $new_team[$i]['_tmm_sc_title1'] = stripslashes(strip_tags(sanitize_text_field($member_scl_title1))) : $new_team[$i]['_tmm_sc_title1'] = '';
-                (isset($member_scl_url1) && $member_scl_url1) ? $new_team[$i]['_tmm_sc_url1'] = stripslashes(strip_tags(sanitize_text_field($member_scl_url1))) : $new_team[$i]['_tmm_sc_url1'] = '';
+                (isset($member_scl_type1) && $member_scl_type1) ? $new_team[$i]['_tmm_sc_type1'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_type1))) : $new_team[$i]['_tmm_sc_type1'] = '';
+                (isset($member_scl_title1) && $member_scl_title1) ? $new_team[$i]['_tmm_sc_title1'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_title1))) : $new_team[$i]['_tmm_sc_title1'] = '';
+                (isset($member_scl_url1) && $member_scl_url1) ? $new_team[$i]['_tmm_sc_url1'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_url1))) : $new_team[$i]['_tmm_sc_url1'] = '';
 
-                (isset($member_scl_type2) && $member_scl_type2) ? $new_team[$i]['_tmm_sc_type2'] = stripslashes(strip_tags(sanitize_text_field($member_scl_type2))) : $new_team[$i]['_tmm_sc_type2'] = '';
-                (isset($member_scl_title2) && $member_scl_title2) ? $new_team[$i]['_tmm_sc_title2'] = stripslashes(strip_tags(sanitize_text_field($member_scl_title2))) : $new_team[$i]['_tmm_sc_title2'] = '';
-                (isset($member_scl_url2) && $member_scl_url2) ? $new_team[$i]['_tmm_sc_url2'] = stripslashes(strip_tags(sanitize_text_field($member_scl_url2))) : $new_team[$i]['_tmm_sc_url2'] = '';
+                (isset($member_scl_type2) && $member_scl_type2) ? $new_team[$i]['_tmm_sc_type2'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_type2))) : $new_team[$i]['_tmm_sc_type2'] = '';
+                (isset($member_scl_title2) && $member_scl_title2) ? $new_team[$i]['_tmm_sc_title2'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_title2))) : $new_team[$i]['_tmm_sc_title2'] = '';
+                (isset($member_scl_url2) && $member_scl_url2) ? $new_team[$i]['_tmm_sc_url2'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_url2))) : $new_team[$i]['_tmm_sc_url2'] = '';
 
-                (isset($member_scl_type3) && $member_scl_type3) ? $new_team[$i]['_tmm_sc_type3'] = stripslashes(strip_tags(sanitize_text_field($member_scl_type3))) : $new_team[$i]['_tmm_sc_type3'] = '';
-                (isset($member_scl_title3) && $member_scl_title3) ? $new_team[$i]['_tmm_sc_title3'] = stripslashes(strip_tags(sanitize_text_field($member_scl_title3))) : $new_team[$i]['_tmm_sc_title3'] = '';
-                (isset($member_scl_url3) && $member_scl_url3) ? $new_team[$i]['_tmm_sc_url3'] = stripslashes(strip_tags(sanitize_text_field($member_scl_url3))) : $new_team[$i]['_tmm_sc_url3'] = '';
+                (isset($member_scl_type3) && $member_scl_type3) ? $new_team[$i]['_tmm_sc_type3'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_type3))) : $new_team[$i]['_tmm_sc_type3'] = '';
+                (isset($member_scl_title3) && $member_scl_title3) ? $new_team[$i]['_tmm_sc_title3'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_title3))) : $new_team[$i]['_tmm_sc_title3'] = '';
+                (isset($member_scl_url3) && $member_scl_url3) ? $new_team[$i]['_tmm_sc_url3'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_url3))) : $new_team[$i]['_tmm_sc_url3'] = '';
             }
         }
     }
 
     /* Settings. */
-    (isset($_POST['team_color']) && $_POST['team_color'])
-        ? $new_team_settings['_tmm_color'] = stripslashes(strip_tags(sanitize_hex_color(wp_unslash($_POST['team_color']))))
+    $team_color = isset($_POST['team_color']) ? sanitize_hex_color(wp_unslash($_POST['team_color'])) : '';
+    $team_columns = isset($_POST['team_columns']) ? sanitize_text_field(wp_unslash($_POST['team_columns'])) : '';
+    $team_bio_align = isset($_POST['team_bio_align']) ? sanitize_text_field(wp_unslash($_POST['team_bio_align'])) : '';
+    $team_force_font = isset($_POST['team_force_font']) ? sanitize_text_field(wp_unslash($_POST['team_force_font'])) : '';
+    $team_display_order = isset($_POST['team_display_order']) ? sanitize_text_field(wp_unslash($_POST['team_display_order'])) : '';
+    $team_piclink_beh = isset($_POST['team_piclink_beh']) ? sanitize_text_field(wp_unslash($_POST['team_piclink_beh'])) : '';
+
+    ($team_color)
+        ? $new_team_settings['_tmm_color'] = $team_color
         : $new_team_settings['_tmm_color'] = '';
-    (isset($_POST['team_columns']) && $_POST['team_columns'])
-        ? $new_team_settings['_tmm_columns'] = stripslashes(strip_tags(sanitize_text_field(wp_unslash($_POST['team_columns']))))
+    ($team_columns)
+        ? $new_team_settings['_tmm_columns'] = $team_columns
         : $new_team_settings['_tmm_columns'] = '';
-    (isset($_POST['team_bio_align']) && $_POST['team_bio_align'])
-        ? $new_team_settings['_tmm_bio_alignment'] = stripslashes(strip_tags(sanitize_text_field(wp_unslash($_POST['team_bio_align']))))
+    ($team_bio_align)
+        ? $new_team_settings['_tmm_bio_alignment'] = $team_bio_align
         : $new_team_settings['_tmm_bio_alignment'] = '';
-    (isset($_POST['team_force_font']) && $_POST['team_force_font'])
-        ? $new_team_settings['_tmm_original_font'] = stripslashes(strip_tags(sanitize_text_field(wp_unslash($_POST['team_force_font']))))
+    ($team_force_font)
+        ? $new_team_settings['_tmm_original_font'] = $team_force_font
         : $new_team_settings['_tmm_original_font'] = '';
-    (isset($_POST['team_display_order']) && $_POST['team_display_order'])
-        ? $new_team_settings['_tmm_display_order'] = stripslashes(strip_tags(sanitize_text_field(wp_unslash($_POST['team_display_order']))))
-        : $new_team_settings['_tmm_display_order '] = '';
-    (isset($_POST['team_piclink_beh']) && $_POST['team_piclink_beh'])
-        ? $new_team_settings['_tmm_piclink_beh'] = stripslashes(strip_tags(sanitize_text_field(wp_unslash($_POST['team_piclink_beh']))))
+    ($team_display_order)
+        ? $new_team_settings['_tmm_display_order'] = $team_display_order
+        : $new_team_settings['_tmm_display_order'] = '';
+    ($team_piclink_beh)
+        ? $new_team_settings['_tmm_piclink_beh'] = $team_piclink_beh
         : $new_team_settings['_tmm_piclink_beh'] = '';
 
     /* Updates plans. */

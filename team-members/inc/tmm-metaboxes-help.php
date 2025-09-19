@@ -32,12 +32,12 @@ function dmb_tmm_help_display()
             name="<?php echo esc_attr($slug); ?>"]</span>
         <?php } else { ?>
         <span style='display:inline-block;color:#849d3a'>
-            <?php /* translators: Leave HTML tags */ esc_attr_e("Publish your team before you can see your shortcode.", TMM_TXTDM); ?>
+            <?php /* translators: Leave HTML tags */ esc_attr_e("Publish your team before you can see your shortcode.", 'team-members'); ?>
         </span>
         <?php } ?>
     </p>
     <p>
-        <?php /* translators: Leave HTML tags */ esc_attr_e('To display your team on your site, copy-paste the shortcode above in your post/page.', TMM_TXTDM) ?>
+        <?php /* translators: Leave HTML tags */ esc_attr_e('To display your team on your site, copy-paste the shortcode above in your post/page.', 'team-members') ?>
     </p>
 </div>
 
