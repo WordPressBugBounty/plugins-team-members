@@ -31,7 +31,7 @@ function tmm_sc($atts)
 
         /* Checks if member links open in new window. */
         $tmm_piclink_beh = get_post_meta($post->ID, '_tmm_piclink_beh', true);
-        'new' == $tmm_piclink_beh ? $tmm_plb = 'target="_blank"' : $tmm_plb = '';
+        'new' == $tmm_piclink_beh ? $tmm_plb = 'target="_blank" rel="noopener noreferrer"' : $tmm_plb = '';
 
         /* Checks if forcing original fonts. */
         $original_font = get_post_meta($post->ID, '_tmm_original_font', true);
@@ -46,7 +46,9 @@ function tmm_sc($atts)
         }
 
         $team_view .= '<div class="tmm tmm_'.esc_attr($name).'">';
-        $team_view .= '<div class="tmm_'.esc_attr($tmm_columns).'_columns tmm_wrap '.$ori_f.'">';
+        $allowed_columns = array('1','2','3','4','5');
+        $safe_columns = in_array((string) $tmm_columns, $allowed_columns, true) ? (string) $tmm_columns : '3';
+        $team_view .= '<div class="tmm_'.esc_attr($safe_columns).'_columns tmm_wrap '.$ori_f.'">';
 
         if (is_array($members) || is_object($members)) {
             foreach ($members as $key => $member) {
@@ -55,7 +57,7 @@ function tmm_sc($atts)
                     /* Checks if group of two (alignment). */
                     $team_view .= '<span class="tmm_two_containers_tablet"></span>';
                 }
-                if (0 == $key % $tmm_columns) {
+                if (0 == $key % (int) $safe_columns) {
                     /* Checks if first div of group and closes. */
                     if ($key > 0) {
                         $team_view .= '</div><span class="tmm_columns_containers_desktop"></span>';
@@ -72,7 +74,7 @@ function tmm_sc($atts)
                 }
 
                 if (!empty($member['_tmm_photo'])) {
-                    $team_view .= '<div class="tmm_photo tmm_pic_'.$name.'_'.$key.'" style="background: url('.esc_url($member['_tmm_photo']).'); margin-left: auto; margin-right:auto; background-size:cover !important;"></div>';
+                    $team_view .= '<div class="tmm_photo tmm_pic_'.sanitize_html_class($name).'_'.absint($key).'" style="background: url('.esc_url($member['_tmm_photo']).'); margin-left: auto; margin-right:auto; background-size:cover !important;"></div>';
                 }
 
                 if (!empty($member['_tmm_photo_url'])) {
@@ -109,11 +111,11 @@ function tmm_sc($atts)
                 for ($i = 1; $i <= 3; ++$i) {
                     if ('nada' != $member['_tmm_sc_type'.$i]) {
                         if ('email' == $member['_tmm_sc_type'.$i]) {
-                            $team_view .= '<a class="tmm_sociallink" href="mailto:'.(!empty($member['_tmm_sc_url'.$i]) ? esc_attr($member['_tmm_sc_url'.$i]) : '').'" title="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'"><img alt="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'" src="'.plugins_url('img/links/', __FILE__).esc_attr($member['_tmm_sc_type'.$i]).'.png"/></a>';
+                            $team_view .= '<a class="tmm_sociallink" href="'.(!empty($member['_tmm_sc_url'.$i]) ? esc_url('mailto:'.antispambot($member['_tmm_sc_url'.$i])) : '').'" title="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'"><img alt="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'" src="'.esc_url(plugins_url('img/links/'.sanitize_key($member['_tmm_sc_type'.$i]).'.png', __FILE__)).'"/></a>';
                         } elseif ('phone' == $member['_tmm_sc_type'.$i]) {
-                            $team_view .= '<a class="tmm_sociallink" href="tel:'.(!empty($member['_tmm_sc_url'.$i]) ? esc_attr($member['_tmm_sc_url'.$i]) : '').'" title="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'"><img alt="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'" src="'.plugins_url('img/links/', __FILE__).esc_attr($member['_tmm_sc_type'.$i]).'.png"/></a>';
+                            $team_view .= '<a class="tmm_sociallink" href="'.(!empty($member['_tmm_sc_url'.$i]) ? esc_url('tel:'.preg_replace('/[^0-9+]/', '', $member['_tmm_sc_url'.$i])) : '').'" title="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'"><img alt="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'" src="'.esc_url(plugins_url('img/links/'.sanitize_key($member['_tmm_sc_type'.$i]).'.png', __FILE__)).'"/></a>';
                         } else {
-                            $team_view .= '<a target="_blank" class="tmm_sociallink" href="'.(!empty($member['_tmm_sc_url'.$i]) ? esc_url($member['_tmm_sc_url'.$i]) : '').'" title="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'"><img alt="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'" src="'.plugins_url('img/links/', __FILE__).esc_attr($member['_tmm_sc_type'.$i]).'.png"/></a>';
+                            $team_view .= '<a target="_blank" class="tmm_sociallink" href="'.(!empty($member['_tmm_sc_url'.$i]) ? esc_url($member['_tmm_sc_url'.$i]) : '').'" title="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'"><img alt="'.(!empty($member['_tmm_sc_title'.$i]) ? esc_attr($member['_tmm_sc_title'.$i]) : '').'" src="'.esc_url(plugins_url('img/links/'.sanitize_key($member['_tmm_sc_type'.$i]).'.png', __FILE__)).'"/></a>';
                         }
                     }
                 }

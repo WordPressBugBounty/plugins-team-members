@@ -15,12 +15,23 @@ function add_admin_tmm_style()
         /* Others. */
         wp_enqueue_style('wp-color-picker');
 
-        /* JS for metaboxes. */
-        wp_enqueue_script('tmm', plugins_url('dmb/dmb.min.js', __FILE__), ['jquery', 'thickbox', 'wp-color-picker']);
+        /* Ensure media library is available for image uploader. */
+        if (function_exists('wp_enqueue_media')) {
+            wp_enqueue_media();
+        }
+
+        /* Ensure the WordPress editor assets are loaded even if no editors exist initially. */
+        if (function_exists('wp_enqueue_editor')) {
+            wp_enqueue_editor();
+        }
+
+        /* JS for metaboxes. Ensure editor scripts load before our code. */
+        wp_enqueue_script('tmm', plugins_url('dmb/dmb.js', __FILE__), ['jquery', 'thickbox', 'wp-color-picker', 'editor', 'wp-editor']);
 
         /* Localizes string for JS file. */
         wp_localize_script('tmm', 'objectL10n', [
           'untitled' => __('Untitled', 'team-members'),
+          'copy' => __('copy', 'team-members'),
           'noMemberNotice' => __('Add at least <strong>1</strong> member to preview the team.', 'team-members'),
           'previewAccuracy' => __('This is only a preview, shortcodes used in the fields will not be rendered and results may vary depending on your container\'s width.', 'team-members'),
         ]);

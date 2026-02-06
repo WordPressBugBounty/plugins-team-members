@@ -45,25 +45,26 @@ function dmb_tmm_plan_meta_box_save($post_id)
             /* Data travels using a single field to avoid max_input_vars issue. */
             $member_data = explode(']--[', $tmm_data_dumps[$i]);
 
-            $member_firstname = $member_data[0];
-            $member_lastname = $member_data[1];
-            $member_job = $member_data[2];
-            $member_bio = $member_data[3];
+            $member_firstname = isset($member_data[0]) ? $member_data[0] : '';
+            $member_lastname = isset($member_data[1]) ? $member_data[1] : '';
+            $member_job = isset($member_data[2]) ? $member_data[2] : '';
+            // Decode only the escaped delimiter we added, not all HTML entities
+            $member_bio = isset($member_data[3]) ? str_replace('&#93;--&#91;', ']--[', $member_data[3]) : '';
 
-            $member_scl_type1 = $member_data[4];
-            $member_scl_title1 = $member_data[5];
-            $member_scl_url1 = $member_data[6];
+            $member_scl_type1 = isset($member_data[4]) ? $member_data[4] : '';
+            $member_scl_title1 = isset($member_data[5]) ? $member_data[5] : '';
+            $member_scl_url1 = isset($member_data[6]) ? $member_data[6] : '';
 
-            $member_scl_type2 = $member_data[7];
-            $member_scl_title2 = $member_data[8];
-            $member_scl_url2 = $member_data[9];
+            $member_scl_type2 = isset($member_data[7]) ? $member_data[7] : '';
+            $member_scl_title2 = isset($member_data[8]) ? $member_data[8] : '';
+            $member_scl_url2 = isset($member_data[9]) ? $member_data[9] : '';
 
-            $member_scl_type3 = $member_data[10];
-            $member_scl_title3 = $member_data[11];
-            $member_scl_url3 = $member_data[12];
+            $member_scl_type3 = isset($member_data[10]) ? $member_data[10] : '';
+            $member_scl_title3 = isset($member_data[11]) ? $member_data[11] : '';
+            $member_scl_url3 = isset($member_data[12]) ? $member_data[12] : '';
 
-            $member_photo = $member_data[13];
-            $member_photo_url = $member_data[14];
+            $member_photo = isset($member_data[13]) ? $member_data[13] : '';
+            $member_photo_url = isset($member_data[14]) ? $member_data[14] : '';
 
             /* Saves the member if at least one of these fields are not empty. */
             if (

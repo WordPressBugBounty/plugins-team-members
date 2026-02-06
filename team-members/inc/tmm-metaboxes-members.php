@@ -73,21 +73,6 @@ function dmb_tmm_team_display()
     </a>
 </div>
 
-<?php if (!class_exists('acf')) { ?>
-
-<div id="dmb_unique_editor">
-    <?php wp_editor('', 'dmb_editor', ['editor_height' => '300px']); ?>
-    <br />
-    <a class="dmb_button dmb_button_huge dmb_button_blue dmb_ue_update" href="#">
-        <?php esc_html_e('Update biography', 'team-members'); ?>
-    </a>
-    <a class="dmb_button dmb_button_huge dmb_ue_cancel" href="#">
-        <?php esc_html_e('Cancel', 'team-members'); ?>
-    </a>
-</div>
-
-<?php } ?>
-
 <!-- Toolbar for member metabox -->
 <div class="dmb_toolbar">
     <a class="dmb_button dmb_button_large dmb_expand_rows" href="#"><span
@@ -103,16 +88,20 @@ function dmb_tmm_team_display()
 
 <?php if ($team) {
     /* Loops through rows. */
+    $member_index = 0;
     foreach ($team as $team_member) {
         /* Retrieves each field for current member. */
         $member = [];
         foreach ($fields_to_process as $field) {
             switch ($field) {
                 default:
-                    $member[$field] = (isset($team_member[$field])) ? esc_attr($team_member[$field]) : '';
+                    $member[$field] = (isset($team_member[$field])) ? $team_member[$field] : '';
                     break;
             }
-        } ?>
+        }
+        $editor_id = 'dmb_bio_editor_' . $member_index;
+        $member_index++;
+        ?>
 
 <!-- START member -->
 <div class="dmb_main">
@@ -168,38 +157,25 @@ function dmb_tmm_team_display()
 
         <div class="dmb_grid dmb_grid_100 dmb_grid_first dmb_grid_last">
 
-            <?php if (!class_exists('acf')) { ?>
-
-            <div class="dmb_field_title">
-                <?php esc_html_e('Description/biography', 'team-members'); ?>
-                <a class="dmb_inline_tip dmb_tooltip_large"
-                    data-tooltip="<?php esc_attr_e('Edit your member\'s biography by clicking the button below. Once updated, it will show up here.', 'team-members'); ?>">[?]</a>
-            </div>
-
-            <div class="dmb_field dmb_description_of_member">
-                <?php echo esc_html($member['_tmm_desc']); ?>
-            </div>
-
-            <?php } else { ?>
-
             <div class="dmb_field_title">
                 <?php esc_html_e('Description/biography', 'team-members'); ?>
             </div>
 
-            <div class="dmb_field dmb_description_of_member_fb" style="display:none !important;">
-                <?php echo esc_html($member['_tmm_desc']); ?>
+            <div class="dmb_bio_editor_wrapper">
+                <?php
+                $editor_settings = [
+                    'textarea_name' => '',
+                    'textarea_rows' => 6,
+                    'editor_height' => 150,
+                    'teeny' => true,
+                    'quicktags' => false,
+                    'media_buttons' => false,
+                ];
+                wp_editor($member['_tmm_desc'], $editor_id, $editor_settings);
+                ?>
             </div>
-            <textarea id="acf-fallback-bio"><?php echo wp_kses_post($member['_tmm_desc']); ?></textarea>
-
-            <?php } ?>
 
             <div class="dmb_clearfix"></div>
-
-            <?php if (!class_exists('acf')) { ?>
-            <div class="dmb_edit_description_of_member dmb_button dmb_button_large dmb_button_blue">
-                <?php esc_html_e('Edit biography', 'team-members'); ?>
-            </div>
-            <?php } ?>
 
         </div>
 
@@ -404,34 +380,15 @@ function dmb_tmm_team_display()
 
         <div class="dmb_grid dmb_grid_100 dmb_grid_first dmb_grid_last">
 
-            <?php if (!class_exists('acf')) { ?>
-
-            <div class="dmb_field_title">
-                <?php esc_html_e('Description/biography', 'team-members'); ?>
-                <a class="dmb_inline_tip dmb_tooltip_large"
-                    data-tooltip="<?php esc_attr_e('Edit your member\'s biography by clicking the button below. Once updated, it will show up here.', 'team-members'); ?>">[?]</a>
-            </div>
-
-            <div class="dmb_field dmb_description_of_member"></div>
-
-            <?php } else { ?>
-
             <div class="dmb_field_title">
                 <?php esc_html_e('Description/biography', 'team-members'); ?>
             </div>
 
-            <div class="dmb_field dmb_description_of_member_fb" style="display:none !important;"></div>
-            <textarea id="acf-fallback-bio"></textarea>
-
-            <?php } ?>
+            <div class="dmb_bio_editor_wrapper">
+                <textarea class="dmb_bio_textarea_empty" style="width:100%; min-height:150px;"></textarea>
+            </div>
 
             <div class="dmb_clearfix"></div>
-
-            <?php if (!class_exists('acf')) { ?>
-            <div class="dmb_edit_description_of_member dmb_button dmb_button_large dmb_button_blue">
-                <?php esc_html_e('Edit biography', 'team-members'); ?>
-            </div>
-            <?php } ?>
 
         </div>
 

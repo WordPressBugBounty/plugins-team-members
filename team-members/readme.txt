@@ -2,8 +2,8 @@
 Contributors: spwebguy
 Tags: team, teams, meet the team, shortcode, responsive
 Requires at least: 3.6
-Tested up to: 6.8
-Stable tag: 5.3.6
+Tested up to: 6.9
+Stable tag: 5.4.1
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -94,6 +94,14 @@ Find help on [our support platform](https://wpdarko.com/support) for this plugin
 6. Finding the shortcode (admin view)
 
 == Changelog ==
+= 5.4.1 =
+* Fixed editor errors on cloning
+* Fixed photo upload feature
+
+= 5.4.0 =
+* Replaced popup editor with inline WYSIWYG editor for biography fields
+* Reduced default editor height for better UX
+
 = 5.3.6 =
 * Fix vulnerability
 * Escaped shortcode slug in admin UI.

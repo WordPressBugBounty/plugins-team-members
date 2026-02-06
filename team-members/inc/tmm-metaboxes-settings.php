@@ -138,7 +138,7 @@ function dmb_tmm_settings_display()
         </div>
         <select class="dmb_side_select" name="team_columns">
             <?php foreach ($team_columns as $label => $value) { ?>
-            <option value="<?php echo wp_kses_post($value); ?>"
+            <option value="<?php echo esc_attr($value); ?>"
                 <?php selected((isset($settings['_tmm_columns'])) ? $settings['_tmm_columns'] : '3', $value); ?>>
                 <?php echo esc_attr($label); ?>
             </option>
@@ -153,7 +153,7 @@ function dmb_tmm_settings_display()
         </div>
         <select class="dmb_side_select" name="team_piclink_beh">
             <?php foreach ($team_piclink_beh as $label => $value) { ?>
-            <option value="<?php echo wp_kses_post($value); ?>"
+            <option value="<?php echo esc_attr($value); ?>"
                 <?php selected((isset($settings['_tmm_piclink_beh'])) ? $settings['_tmm_piclink_beh'] : 'new', $value); ?>>
                 <?php echo esc_attr($label); ?>
             </option>
@@ -172,9 +172,9 @@ function dmb_tmm_settings_display()
         </div>
         <select class="dmb_side_select" name="team_display_order">
             <?php foreach ($team_display_order as $label => $value) { ?>
-            <option value="<?php echo wp_kses_post($value); ?>"
+            <option value="<?php echo esc_attr($value); ?>"
                 <?php selected((isset($settings['_tmm_display_order'])) ? $settings['_tmm_display_order'] : 'default', $value); ?>>
-                <?php esc_attr($label); ?>
+                <?php echo esc_attr($label); ?>
             </option>
             <?php } ?>
         </select>
@@ -187,7 +187,7 @@ function dmb_tmm_settings_display()
         </div>
         <select class="dmb_side_select" name="team_force_font">
             <?php foreach ($team_force_font as $label => $value) { ?>
-            <option value="<?php echo wp_kses_post($value); ?>"
+            <option value="<?php echo esc_attr($value); ?>"
                 <?php selected((isset($settings['_tmm_original_font'])) ? $settings['_tmm_original_font'] : 'yes', $value); ?>>
                 <?php echo esc_attr($label); ?>
             </option>
@@ -201,7 +201,7 @@ function dmb_tmm_settings_display()
             <?php esc_html_e('Main color', 'team-members'); ?>
         </div>
         <input class="dmb_color_picker dmb_field dmb_color_of_team" name="team_color" type="text"
-            value="<?php echo (isset($settings['_tmm_color'])) ? wp_kses_post(esc_attr($settings['_tmm_color'])) : '#333333'; ?>" />
+            value="<?php echo (isset($settings['_tmm_color'])) ? esc_attr($settings['_tmm_color']) : '#333333'; ?>" />
     </div>
 
     <div class="dmb_clearfix"></div>
