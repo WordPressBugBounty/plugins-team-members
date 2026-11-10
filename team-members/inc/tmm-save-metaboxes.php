@@ -1,5 +1,13 @@
 <?php
 
+/* Empties URLs using a script-capable protocol, leaves every other value untouched. */
+function dmb_tmm_remove_unsafe_url($url)
+{
+    $normalized = strtolower(preg_replace('/[\x00-\x20]+/', '', html_entity_decode($url, ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+
+    return preg_match('/^(javascript|vbscript|data):/', $normalized) ? '' : $url;
+}
+
 /* Saves metaboxes. */
 add_action('save_post', 'dmb_tmm_plan_meta_box_save');
 function dmb_tmm_plan_meta_box_save($post_id)
@@ -79,20 +87,20 @@ function dmb_tmm_plan_meta_box_save($post_id)
                 (isset($member_lastname) && $member_lastname) ? $new_team[$i]['_tmm_lastname'] = sanitize_text_field($member_lastname) : $new_team[$i]['_tmm_lastname'] = '';
                 (isset($member_job) && $member_job) ? $new_team[$i]['_tmm_job'] = stripslashes(wp_kses_post($member_job)) : $new_team[$i]['_tmm_job'] = '';
                 (isset($member_bio) && $member_bio) ? $new_team[$i]['_tmm_desc'] = wp_kses_post(balanceTags($member_bio)) : $new_team[$i]['_tmm_desc'] = '';
-                (isset($member_photo) && $member_photo) ? $new_team[$i]['_tmm_photo'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_photo))) : $new_team[$i]['_tmm_photo'] = '';
+                (isset($member_photo) && $member_photo) ? $new_team[$i]['_tmm_photo'] = esc_url_raw(stripslashes(wp_strip_all_tags($member_photo))) : $new_team[$i]['_tmm_photo'] = '';
                 (isset($member_photo_url) && $member_photo_url) ? $new_team[$i]['_tmm_photo_url'] = stripslashes(wp_strip_all_tags(sanitize_url($member_photo_url))) : $new_team[$i]['_tmm_photo_url'] = '';
 
                 (isset($member_scl_type1) && $member_scl_type1) ? $new_team[$i]['_tmm_sc_type1'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_type1))) : $new_team[$i]['_tmm_sc_type1'] = '';
                 (isset($member_scl_title1) && $member_scl_title1) ? $new_team[$i]['_tmm_sc_title1'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_title1))) : $new_team[$i]['_tmm_sc_title1'] = '';
-                (isset($member_scl_url1) && $member_scl_url1) ? $new_team[$i]['_tmm_sc_url1'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_url1))) : $new_team[$i]['_tmm_sc_url1'] = '';
+                (isset($member_scl_url1) && $member_scl_url1) ? $new_team[$i]['_tmm_sc_url1'] = dmb_tmm_remove_unsafe_url(stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_url1)))) : $new_team[$i]['_tmm_sc_url1'] = '';
 
                 (isset($member_scl_type2) && $member_scl_type2) ? $new_team[$i]['_tmm_sc_type2'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_type2))) : $new_team[$i]['_tmm_sc_type2'] = '';
                 (isset($member_scl_title2) && $member_scl_title2) ? $new_team[$i]['_tmm_sc_title2'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_title2))) : $new_team[$i]['_tmm_sc_title2'] = '';
-                (isset($member_scl_url2) && $member_scl_url2) ? $new_team[$i]['_tmm_sc_url2'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_url2))) : $new_team[$i]['_tmm_sc_url2'] = '';
+                (isset($member_scl_url2) && $member_scl_url2) ? $new_team[$i]['_tmm_sc_url2'] = dmb_tmm_remove_unsafe_url(stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_url2)))) : $new_team[$i]['_tmm_sc_url2'] = '';
 
                 (isset($member_scl_type3) && $member_scl_type3) ? $new_team[$i]['_tmm_sc_type3'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_type3))) : $new_team[$i]['_tmm_sc_type3'] = '';
                 (isset($member_scl_title3) && $member_scl_title3) ? $new_team[$i]['_tmm_sc_title3'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_title3))) : $new_team[$i]['_tmm_sc_title3'] = '';
-                (isset($member_scl_url3) && $member_scl_url3) ? $new_team[$i]['_tmm_sc_url3'] = stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_url3))) : $new_team[$i]['_tmm_sc_url3'] = '';
+                (isset($member_scl_url3) && $member_scl_url3) ? $new_team[$i]['_tmm_sc_url3'] = dmb_tmm_remove_unsafe_url(stripslashes(wp_strip_all_tags(sanitize_text_field($member_scl_url3)))) : $new_team[$i]['_tmm_sc_url3'] = '';
             }
         }
     }

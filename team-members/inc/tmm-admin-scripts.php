@@ -9,9 +9,9 @@ function add_admin_tmm_style()
 
     if ('tmm' == $post_type) {
         /* CSS for metaboxes. */
-        wp_enqueue_style('tmm_dmb_styles', plugins_url('dmb/dmb.min.css', __FILE__));
+        wp_enqueue_style('tmm_dmb_styles', plugins_url('dmb/dmb.min.css', __FILE__), [], TMM_VERSION);
         /* CSS for preview.s */
-        wp_enqueue_style('tmm_styles', plugins_url('css/tmm_style.min.css', __FILE__));
+        wp_enqueue_style('tmm_styles', plugins_url('css/tmm_style.min.css', __FILE__), [], TMM_VERSION);
         /* Others. */
         wp_enqueue_style('wp-color-picker');
 
@@ -26,7 +26,7 @@ function add_admin_tmm_style()
         }
 
         /* JS for metaboxes. Ensure editor scripts load before our code. */
-        wp_enqueue_script('tmm', plugins_url('dmb/dmb.js', __FILE__), ['jquery', 'thickbox', 'wp-color-picker', 'editor', 'wp-editor']);
+        wp_enqueue_script('tmm', plugins_url('dmb/dmb.js', __FILE__), ['jquery', 'thickbox', 'wp-color-picker', 'editor', 'wp-editor'], TMM_VERSION, false);
 
         /* Localizes string for JS file. */
         wp_localize_script('tmm', 'objectL10n', [

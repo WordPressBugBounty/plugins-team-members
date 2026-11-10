@@ -240,11 +240,20 @@ $(document).ready(function (){
   });
 
 
+  /* Builds the remove button and img preview (DOM APIs, no string concatenation). */
+  function dmbBuildImgElements(imgUrl) {
+    var removeBtn = $('<a>', { 'class': 'dmb_remove_img_btn dmb_button dmb_button_large dmb_button_compact', href: '#' })
+      .append($('<span>', { 'class': 'dashicons dashicons-trash' }));
+    var img = $('<img>').attr('src', imgUrl).addClass('dmb_img');
+    return removeBtn.add(img);
+  }
+
+
   /* Shows img/remove button if exists on page load. */
   $('.dmb_img_data_url').each(function(i, obj) {
     var imgUrl = $(this).attr("data-img");
-    if (imgUrl != ''){
-      $("<a class='dmb_remove_img_btn dmb_button dmb_button_large dmb_button_compact' href='#'><span class='dashicons dashicons-trash'></span></a><img src='"+imgUrl+"' class='dmb_img'/>").insertAfter($(this).parent().find('.dmb_upload_img_btn'));
+    if (imgUrl){
+      dmbBuildImgElements(imgUrl).insertAfter($(this).parent().find('.dmb_upload_img_btn'));
     }
   });
 
@@ -348,7 +357,7 @@ $(document).ready(function (){
 		}).on('select', function() { // it also has "open" and "close" events 
       var attachment = custom_uploader.state().get('selection').first().toJSON();
       button.siblings('img, .dmb_remove_img_btn, .dashicons-trash').remove();
-			$("<a class='dmb_remove_img_btn dmb_button dmb_button_large dmb_button_compact' href='#'><span class='dashicons dashicons-trash'></span></a><img src='"+attachment.url+"' class='dmb_img'/>").insertAfter(button);
+			dmbBuildImgElements(attachment.url).insertAfter(button);
       button.siblings('.dmb_img_data_url').attr('data-img', attachment.url).trigger('change');
     })
 		.open();
@@ -516,7 +525,7 @@ $(document).ready(function (){
     /* Inserts it after original row so WP can initialize the editor. */
     clone.insertAfter($(this).closest('.dmb_main'));
     /* Adds 'copy' to title. */
-    clone.find('.dmb_handle_title').html(clone.find('.dmb_firstname_of_member').val() + ' ('+objectL10n.copy+')');
+    clone.find('.dmb_handle_title').text(clone.find('.dmb_firstname_of_member').val() + ' ('+objectL10n.copy+')');
     clone.find('.dmb_firstname_of_member').focus();
 
     /* Initialize the new editor instance and populate content using robust initializer. */
@@ -553,11 +562,20 @@ $(document).ready(function (){
 
   });
 
+  /* Encodes a value for HTML text and quoted attribute contexts. */
   function encodeHTML(dirtyString) {
-    var container = document.createElement('div');
-    var text = document.createTextNode(dirtyString);
-    container.appendChild(text);
-    return container.innerHTML;
+    return String(dirtyString == null ? '' : dirtyString)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  /* Empties URLs using a script-capable protocol (mirrors what esc_url() does on the front end). */
+  function dmbSafeUrl(url) {
+    var normalized = String(url == null ? '' : url).replace(/[\x00-\x20]+/g, '').toLowerCase();
+    return /^(javascript|vbscript|data):/.test(normalized) ? '' : url;
   }
 
 
@@ -625,15 +643,15 @@ $(document).ready(function (){
 
           fields.scl_type1 = $(this).find(".dmb_scl_type1_of_member").find(":selected").val();
           fields.scl_title1 = encodeHTML($(this).find(".dmb_scl_title1_of_member").val());
-          fields.scl_url1 = encodeHTML($(this).find(".dmb_scl_url1_of_member").val());
+          fields.scl_url1 = encodeHTML(dmbSafeUrl($(this).find(".dmb_scl_url1_of_member").val()));
           fields.scl_type2 = $(this).find(".dmb_scl_type2_of_member").find(":selected").val();
           fields.scl_title2 = encodeHTML($(this).find(".dmb_scl_title2_of_member").val());
-          fields.scl_url2 = encodeHTML($(this).find(".dmb_scl_url2_of_member").val());
+          fields.scl_url2 = encodeHTML(dmbSafeUrl($(this).find(".dmb_scl_url2_of_member").val()));
           fields.scl_type3 = $(this).find(".dmb_scl_type3_of_member").find(":selected").val();
           fields.scl_title3 = encodeHTML($(this).find(".dmb_scl_title3_of_member").val());
-          fields.scl_url3 = encodeHTML($(this).find(".dmb_scl_url3_of_member").val());
-          fields.photoUrl = $(this).find(".dmb_img").attr('src');
-          fields.photoLinkUrl = encodeHTML($(this).find(".dmb_photo_url_of_member").val());
+          fields.scl_url3 = encodeHTML(dmbSafeUrl($(this).find(".dmb_scl_url3_of_member").val()));
+          fields.photoUrl = encodeHTML(dmbSafeUrl($(this).find(".dmb_img").attr('src')));
+          fields.photoLinkUrl = encodeHTML(dmbSafeUrl($(this).find(".dmb_photo_url_of_member").val()));
 
           /* Creates team container. */
           if(i%2 == 0) {
@@ -692,11 +710,12 @@ $(document).ready(function (){
                   if (fields['scl_type' + j] != 'nada') {
 
                     var currentUrl = (fields['scl_url' + j]) ? fields['scl_url' + j] : '';
-                    var currentTitle = (fields['scl_title' + i]) ? fields['scl_title' + j] : '';
+                    var currentTitle = (fields['scl_title' + j]) ? fields['scl_title' + j] : '';
+                    var currentType = encodeHTML(fields['scl_type' + j]);
                     if (fields['scl_type' + j] == 'email') {
-                      preview_html += '<a class="tmm_sociallink" href="mailto:' + currentUrl + '" title="' + currentTitle + '"><img alt="' + currentTitle + '" src="../wp-content/plugins/' + pluginFolderSlug + '/inc/img/links/' + fields['scl_type' + j] + '.png"/></a>';
+                      preview_html += '<a class="tmm_sociallink" href="mailto:' + currentUrl + '" title="' + currentTitle + '"><img alt="' + currentTitle + '" src="../wp-content/plugins/' + pluginFolderSlug + '/inc/img/links/' + currentType + '.png"/></a>';
                     } else {
-                      preview_html += '<a target="_blank" class="tmm_sociallink" href="' + currentUrl + '" title="' + currentTitle + '"><img alt="' + currentTitle + '" src="../wp-content/plugins/' + pluginFolderSlug + '/inc/img/links/' +fields['scl_type' + j] + '.png"/></a>';
+                      preview_html += '<a target="_blank" class="tmm_sociallink" href="' + currentUrl + '" title="' + currentTitle + '"><img alt="' + currentTitle + '" src="../wp-content/plugins/' + pluginFolderSlug + '/inc/img/links/' + currentType + '.png"/></a>';
                     }
 
                   }
